@@ -1,0 +1,9 @@
+.binaryRow {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.dateWrapper {
+  display: flex;
+  justify-content: space-around;
+}
