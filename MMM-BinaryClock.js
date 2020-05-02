@@ -1,15 +1,25 @@
 Module.register("MMM-BinaryClock", {
-  getScripts: function() {
+
+  defaults: {
+    hourBorderColor: "white",
+    hourBackgroundColor: "white",
+    minuteBorderColor: "white",
+    minuteBackgroundColor: "white",
+    dateBorderColor: "white",
+    dateBackgroundColor: "white"
+  },
+
+  getScripts: function () {
     return ["moment.js"];
   },
 
   // Define styles.
-  getStyles: function() {
+  getStyles: function () {
     return ["binary_clock_styles.css"];
   },
 
   // Define start sequence.
-  start: function() {
+  start: function () {
     Log.info("Starting module: " + this.name);
 
     // Schedule update interval.
@@ -44,16 +54,17 @@ Module.register("MMM-BinaryClock", {
     wrapper.className = "binaryClock";
     let timeSize = 40;
 
-    let drawBinary = function(digits, value, size, border,color) {
+    let drawBinary = function (digits, value, size, border, borderColor,
+        backgroundColor) {
       let container = document.createElement("div");
       container.className = "binaryRow";
       for (let i = 0; i < digits; i++) {
         let digit = document.createElement("div");
         let bit = value & (1 << i);
-        digit.style.border = border + "px solid " + color;
+        digit.style.border = border + "px solid " + borderColor;
         digit.style.borderRadius = "50%";
         digit.style.boxShadow = "0 0 1px black";
-        digit.style.backgroundColor = bit ? color : "";
+        digit.style.backgroundColor = bit ? backgroundColor : "";
         digit.style.marginLeft = size / 2 + "px";
         digit.style.height = size + "px";
         digit.style.width = size + "px";
@@ -62,16 +73,20 @@ Module.register("MMM-BinaryClock", {
       return container;
     }
 
-    let hourWrapper = drawBinary(5, now.hour(), timeSize, 3, "#00ff00");
-    let minuteWrapper = drawBinary(6, now.minute(), timeSize, 3, "#FF00FF");
+    let hourWrapper = drawBinary(5, now.hour(), timeSize, 3,
+        this.config.hourBorderColor, this.config.hourBackgroundColor);
+    let minuteWrapper = drawBinary(6, now.minute(), timeSize, 3,
+        this.config.minuteBorderColor, this.config.minuteBackgroundColor);
     minuteWrapper.style.marginTop = timeSize / 2 + "px";
 
     let dateWrapper = document.createElement("div");
     dateWrapper.className = "dateWrapper";
     dateWrapper.style.marginTop = timeSize / 2 + "px";
     let dateSize = 16;
-    let dayWrapper = drawBinary(5, now.day(), dateSize, 2,  "#00AAFF");
-    let monthWrapper = drawBinary(4, now.month(), dateSize, 2, "#00AAFF");
+    let dayWrapper = drawBinary(5, now.day(), dateSize, 2,
+        this.config.dateBorderColor, this.config.dateBackgroundColor);
+    let monthWrapper = drawBinary(4, now.month(), dateSize, 2,
+        this.config.dateBorderColor, this.config.dateBackgroundColor);
     dateWrapper.appendChild(dayWrapper);
     dateWrapper.appendChild(monthWrapper);
 
