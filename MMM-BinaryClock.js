@@ -83,9 +83,9 @@ Module.register("MMM-BinaryClock", {
     dateWrapper.className = "dateWrapper";
     dateWrapper.style.marginTop = timeSize / 2 + "px";
     let dateSize = 16;
-    let dayWrapper = drawBinary(5, now.day(), dateSize, 2,
+    let dayWrapper = drawBinary(5, now.date(), dateSize, 2,
         this.config.dateBorderColor, this.config.dateBackgroundColor);
-    let monthWrapper = drawBinary(4, now.month(), dateSize, 2,
+    let monthWrapper = drawBinary(4, now.month() + 1, dateSize, 2,
         this.config.dateBorderColor, this.config.dateBackgroundColor);
     dateWrapper.appendChild(dayWrapper);
     dateWrapper.appendChild(monthWrapper);
