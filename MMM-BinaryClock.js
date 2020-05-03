@@ -54,6 +54,15 @@ Module.register("MMM-BinaryClock", {
     wrapper.className = "binaryClock";
     let timeSize = 40;
 
+    let weekDay = document.createElement("div");
+
+    let weekDayImages = ["monday.png", "tuesday.png", "wednesday.png",
+      "thursday.png", "friday.png", "saturday.png", "sunday.png"];
+    let image = document.createElement('img');
+    image.src = this.file("") + "img/weekdays/" + weekDayImages[now.isoWeekday() - 1];
+    image.style.width = timeSize + 6 + "px";
+    weekDay.appendChild(image);
+
     let drawBinary = function (digits, value, size, border, borderColor,
         backgroundColor) {
       let container = document.createElement("div");
@@ -75,6 +84,8 @@ Module.register("MMM-BinaryClock", {
 
     let hourWrapper = drawBinary(5, now.hour(), timeSize, 3,
         this.config.hourBorderColor, this.config.hourBackgroundColor);
+    hourWrapper.appendChild(weekDay);
+
     let minuteWrapper = drawBinary(6, now.minute(), timeSize, 3,
         this.config.minuteBorderColor, this.config.minuteBackgroundColor);
     minuteWrapper.style.marginTop = timeSize / 2 + "px";
